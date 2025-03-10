@@ -18,8 +18,12 @@ values:
   aiven.project:
      description: Aiven project name
      displayName: Aiven Project Name
+     config:
+       type: string
      computed:
-       template: '"{{ .Env.aiven.project }}"'
+       template: '"{{ .Env.aiven_project }}"'
   aiven.serviceName:
+     config:
+       type: string
      description: On the nav tenant, this must be set to "aivenProjectName"-kafka
      displayName: Aiven Service Name

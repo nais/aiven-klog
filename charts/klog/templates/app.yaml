@@ -8,16 +8,20 @@ spec:
   command:
     - kafkactl
     - consume
-    - klog
+    - nais-system.klog
   env:
+    - name: KAFKA_CTL_CONFIG
+      value: /tmp/empty.yaml
     - name: BROKERS
       value: $(KAFKA_BROKERS)
+    - name: CONTEXTS_DEFAULT_TLS_ENABLED
+      value: "true"
     - name: CONTEXTS_DEFAULT_TLS_CERT
-      value: $(KAFKA_CERTIFICATE)
+      value: $(KAFKA_CERTIFICATE_PATH)
     - name: CONTEXTS_DEFAULT_TLS_CERTKEY
-      value: $(KAFKA_PRIVATE_KEY)
+      value: $(KAFKA_PRIVATE_KEY_PATH)
     - name: CONTEXTS_DEFAULT_TLS_CA
-      value: $(KAFKA_CA)
+      value: $(KAFKA_CA_PATH)
   image: deviceinsight/kafkactl:latest
   kafka:
     pool: {{ .Values.aiven.project }}

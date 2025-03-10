@@ -1,7 +1,7 @@
 apiVersion: aiven.io/v1alpha1
 kind: ServiceIntegration
 metadata:
-  name: service-integration-kafka-logs
+  name: klog
   namespace: nais-system
 spec:
   authSecretRef:
@@ -15,4 +15,4 @@ spec:
   destinationServiceName: {{  .Values.aiven.serviceName }}
 
   kafkaLogs:
-    kafka_topic: logs
+    kafka_topic: nais-system.klog

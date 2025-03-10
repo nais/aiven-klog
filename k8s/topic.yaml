@@ -1,0 +1,20 @@
+apiVersion: aiven.io/v1alpha1
+kind: KafkaTopic
+metadata:
+  name: logs
+spec:
+  authSecretRef:
+    name: aiven-token
+    key: token
+
+  project: PROJECT_NAME
+  serviceName: kafka-sample
+
+  # here we can specify how many partitions the topic should have
+  partitions: 3
+  # and the topic replication factor
+  replication: 2
+
+  # we also support various topic-specific configurations
+  config:
+    flush_ms: 100

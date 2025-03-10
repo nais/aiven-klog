@@ -1,0 +1,4 @@
+aiven:
+  project: ""
+  token: ""
+  serviceName: kafka

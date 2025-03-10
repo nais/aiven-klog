@@ -1,0 +1,11 @@
+apiVersion: kafka.nais.io/v1
+kind: Topic
+metadata:
+  name: klog
+  namespace: nais-system
+spec:
+  pool: {{ .Values.aiven.project }}
+  acl:
+    - team: nais-system
+      application: klog
+      access: read

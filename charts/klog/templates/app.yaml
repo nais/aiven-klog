@@ -1,0 +1,10 @@
+---
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  name: klog
+  namespace: nais-system
+spec:
+  image: deviceinsight/kafkactl:latest
+  kafka:
+    pool: {{ .Values.aiven.project }}

@@ -1,0 +1,25 @@
+dependencies:
+  - allOf:
+      - nais-crds
+      - aivenator
+      - naiserator
+      - kafkarator
+environmentKinds:
+  - tenant
+values:
+  aiven.token:
+    description: An API-token with full access to the relevant projects
+    displayName: Aiven API-token
+    computed:
+      template: '"{{ .Env.aiven_application_token_klog }}"'
+    config:
+      type: string
+      secret: true
+  aiven.project:
+     description: Aiven project name
+     displayName: Aiven Project Name
+     computed:
+       template: '"{{ .Env.aiven.project }}"'
+  aiven.serviceName:
+     description: On the nav tenant, this must be set to "aivenProjectName"-kafka
+     displayName: Aiven Service Name

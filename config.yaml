@@ -1,0 +1,136 @@
+contexts:
+  default:
+    brokers:
+      - localhost:9092
+  remote-cluster:
+    brokers:
+      - remote-cluster001:9092
+      - remote-cluster002:9092
+      - remote-cluster003:9092
+
+    # optional: tls config
+    tls:
+      enabled: true
+      ca: my-ca
+      cert: my-cert
+      certKey: my-key
+      # set insecure to true to ignore all tls verification (defaults to false)
+      insecure: false
+
+    # optional: sasl support
+    sasl:
+      enabled: true
+      username: admin
+      password: admin
+      # optional configure sasl mechanism as plaintext, scram-sha256, scram-sha512, oauth (defaults to plaintext)
+      mechanism: oauth
+      # optional tokenProvider configuration (only used for 'sasl.mechanism=oauth')
+      tokenprovider:
+        # plugin to use as token provider implementation (see plugin section)
+        plugin: azure
+        # optional: additional options passed to the plugin
+        options:
+          key: value
+
+    # optional: access clusters running kubernetes
+    kubernetes:
+      enabled: false
+      binary: kubectl #optional
+      kubeConfig: ~/.kube/config #optional
+      kubeContext: my-cluster
+      namespace: my-namespace
+      # optional: docker image to use (the tag of the image will be suffixed by `-scratch` or `-ubuntu` depending on command)
+      image: private.registry.com/deviceinsight/kafkactl
+      # optional: secret for private docker registry
+      imagePullSecret: registry-secret
+      # optional: serviceAccount to use for the pod
+      serviceAccount: my-service-account
+      # optional: keep pod after exit (can be set to true for debugging)
+      keepPod: true
+      # optional: labels to add to the pod
+      labels:
+        key: value
+      # optional: annotations to add to the pod
+      annotations:
+        key: value
+      # optional: nodeSelector to add to the pod
+      nodeSelector:
+        key: value
+
+      # optional: affinity to add to the pod
+      affinity:
+        # note: other types of affinity also supported
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "<key>"
+                    operator: "<operator>"
+                    values: [ "<value>" ]
+
+      # optional: tolerations to add to the pod
+      tolerations:
+        - key: "<key>"
+          operator: "<operator>"
+          value: "<value>"
+          effect: "<effect>"
+
+    # optional: clientID config (defaults to kafkactl-{username})
+    clientID: my-client-id
+
+    # optional: kafkaVersion (defaults to 2.5.0)
+    kafkaVersion: 1.1.1
+
+    # optional: timeout for admin requests (defaults to 3s)
+    requestTimeout: 10s
+
+    # optional: avro schema registry
+    avro:
+      schemaRegistry: localhost:8081
+      # optional: configure codec for (de)serialization as standard,avro (defaults to standard)
+      # see: https://github.com/deviceinsight/kafkactl/issues/123
+      jsonCodec: avro
+
+      # optional: timeout for requests (defaults to 5s)
+      requestTimeout: 10s
+
+      # optional: basic auth credentials
+      username: admin
+      password: admin
+
+      # optional: tls config for avro
+      tls:
+        enabled: true
+        ca: my-ca
+        cert: my-cert
+        certKey: my-key
+        # set insecure to true to ignore all tls verification (defaults to false)
+        insecure: false
+
+    # optional: default protobuf messages search paths
+    protobuf:
+      importPaths:
+        - "/usr/include/protobuf"
+      protoFiles:
+        - "someMessage.proto"
+        - "otherMessage.proto"
+      protosetFiles:
+        - "/usr/include/protoset/other.protoset"
+
+    producer:
+      # optional: changes the default partitioner
+      partitioner: "hash"
+
+      # optional: changes default required acks in produce request
+      # see: https://pkg.go.dev/github.com/IBM/sarama?utm_source=godoc#RequiredAcks
+      requiredAcks: "WaitForAll"
+
+      # optional: maximum permitted size of a message (defaults to 1000000)
+      maxMessageBytes: 1000000
+
+    consumer:
+      # optional: isolationLevel (defaults to ReadCommitted)
+      isolationLevel: ReadUncommitted
+
+# optional for project config files
+current-context: default

@@ -1,0 +1,1 @@
+FROM deviceinsight/kafkactl:latest

@@ -5,8 +5,8 @@ metadata:
   namespace: nais-system
 spec:
   authSecretRef:
-    name: klog
-    key: AIVEN_TOKEN
+    name: aiven-operator-api-token
+    key: token
 
   project: {{ .Values.aiven.project }}
   integrationType: kafka_logs

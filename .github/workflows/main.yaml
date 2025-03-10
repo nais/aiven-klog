@@ -1,0 +1,64 @@
+name: Build and deploy klog
+
+on:
+  push:
+
+env:
+  GOOGLE_REGISTRY: "europe-north1-docker.pkg.dev"
+
+jobs:
+  chart:
+    outputs:
+      version: "${{ steps.version.outputs.version }}"
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    name: Build and push chart
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # ratchet:actions/checkout@v4
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935' # ratchet:google-github-actions/auth@v2.1.8
+        with:
+          workload_identity_provider: ${{ secrets.NAIS_IO_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: 'gh-klog@nais-io.iam.gserviceaccount.com'
+          token_format: 'access_token'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@77e7a554d41e2ee56fc945c52dfd3f33d12def9a' # ratchet:google-github-actions/setup-gcloud@v1
+      - name: 'Log in to Google Artifact Registry'
+        run: |-
+          echo '${{ steps.auth.outputs.access_token }}' | docker login -u oauth2accesstoken --password-stdin https://${{ env.GOOGLE_REGISTRY }}
+      - uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # ratchet:azure/setup-helm@v3
+        name: 'Setup Helm'
+        with:
+          version: '3.17.0'
+      - name: Build Chart
+        run: |-
+          for chart in charts/*; do
+            helm package "$chart"
+          done
+      - name: Push Chart
+        run: |-
+          for chart in *.tgz; do
+            helm push "$chart" oci://${{ env.GOOGLE_REGISTRY }}/nais-io/nais/feature
+          done
+      - name: Output version
+        id: version
+        run: |-
+           version=$(helm show chart ./charts/klog | awk '/^version:/ {print $2}')
+           echo $version
+           echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+  rollout:
+    name: Rollout
+    needs:
+      - chart
+    runs-on: fasit-deploy
+    permissions:
+      id-token: write
+    steps:
+      - uses: nais/fasit-deploy@v2 # ratchet:exclude
+        with:
+          chart: oci://${{ env.GOOGLE_REGISTRY }}/nais-io/nais/feature/klog
+          version: ${{ needs.chart.outputs.version }}

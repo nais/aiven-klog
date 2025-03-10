@@ -5,6 +5,19 @@ metadata:
   name: klog
   namespace: nais-system
 spec:
+  command:
+    - kafkactl
+    - consume
+    - klog
+  env:
+    - name: BROKERS
+      value: $(KAFKA_BROKERS)
+    - name: CONTEXTS_DEFAULT_TLS_CERT
+      value: $(KAFKA_CERTIFICATE)
+    - name: CONTEXTS_DEFAULT_TLS_CERTKEY
+      value: $(KAFKA_PRIVATE_KEY)
+    - name: CONTEXTS_DEFAULT_TLS_CA
+      value: $(KAFKA_CA)
   image: deviceinsight/kafkactl:latest
   kafka:
     pool: {{ .Values.aiven.project }}

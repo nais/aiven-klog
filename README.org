@@ -1,4 +1,5 @@
-* Klog
-This is an application that reads kafka logs from a topic, logs, and dumps them to stdout out.
-the side effect is that dumping to stdout makes the logs get re-ingested into loki and that's what
+* Aiven Klog
+
+This is an application that reads Kafka logs from a topic, logs, and dumps them to stdout out.
+the side effect is that dumping to stdout makes the logs get re-ingested into Loki and that's what
 we are rolling with here.

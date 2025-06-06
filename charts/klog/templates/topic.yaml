@@ -9,3 +9,5 @@ spec:
     - team: nais-system
       application: aiven-klog
       access: read
+  config:
+    retentionHours: 24

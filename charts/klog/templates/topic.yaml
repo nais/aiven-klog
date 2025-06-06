@@ -7,5 +7,5 @@ spec:
   pool: {{ .Values.aiven.project }}
   acl:
     - team: nais-system
-      application: klog
+      application: aiven-klog
       access: read

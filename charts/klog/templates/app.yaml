@@ -9,6 +9,7 @@ spec:
     - kafkactl
     - consume
     - nais-system.klog
+    - --verbose
   env:
     - name: KAFKA_CTL_CONFIG
       value: /tmp/empty.yaml

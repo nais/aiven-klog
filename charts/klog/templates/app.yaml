@@ -13,6 +13,8 @@ spec:
   env:
     - name: KAFKA_CTL_CONFIG
       value: /tmp/empty.yaml
+    - name: KAFKA_CTL_WRITABLE_CONFIG
+      value: /tmp/writable.yaml
     - name: BROKERS
       value: $(KAFKA_BROKERS)
     - name: CONTEXTS_DEFAULT_TLS_ENABLED

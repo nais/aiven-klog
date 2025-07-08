@@ -13,4 +13,3 @@ spec:
       access: read
   config:
     retentionHours: 24
-    partitions: {{ .Values.parallelism }}

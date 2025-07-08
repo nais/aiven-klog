@@ -33,8 +33,8 @@ spec:
   kafka:
     pool: {{ .Values.aiven.project | required ".Values.aiven.project is required." }}
   replicas:
-    min: {{ .Values.parallelism }}
-    max: {{ .Values.parallelism }}
+    min: 2
+    max: 2
   resources:
     requests:
       memory: "32Mi"

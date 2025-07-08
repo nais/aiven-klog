@@ -1,4 +1,3 @@
 aiven:
   project: ""
   serviceName: kafka
-parallelism: 2

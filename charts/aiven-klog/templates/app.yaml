@@ -11,6 +11,8 @@ spec:
     - kafkactl
     - consume
     - nais-system.aiven-klog
+    - --group
+    - aiven-klog
     - --verbose
   env:
     - name: KAFKA_CTL_CONFIG

@@ -32,3 +32,12 @@ spec:
   image: deviceinsight/kafkactl:latest
   kafka:
     pool: {{ .Values.aiven.project | required ".Values.aiven.project is required." }}
+  replicas:
+    min: {{ .Values.parallelism }}
+    max: {{ .Values.parallelism }}
+  resources:
+    requests:
+      memory: "32Mi"
+      cpu: "20m"
+    limits:
+      memory: "256Mi"

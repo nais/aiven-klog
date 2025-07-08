@@ -1,18 +1,20 @@
 apiVersion: aiven.io/v1alpha1
 kind: ServiceIntegration
 metadata:
-  name: klog
+  name: {{ include "aiven-klog.fullname" . }}
   namespace: nais-system
+  labels:
+    {{- include "aiven-klog.labels" . | nindent 4 }}
 spec:
   authSecretRef:
     name: aiven-operator-api-token
     key: token
 
-  project: {{ .Values.aiven.project }}
+  project: {{ .Values.aiven.project | required ".Values.aiven.project is required." }}
   integrationType: kafka_logs
 
   sourceServiceName: {{ .Values.aiven.serviceName }}
   destinationServiceName: {{  .Values.aiven.serviceName }}
 
   kafkaLogs:
-    kafka_topic: nais-system.klog
+    kafka_topic: nais-system.aiven-klog

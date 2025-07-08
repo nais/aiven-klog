@@ -1,4 +1,4 @@
-name: Build and deploy klog
+name: Build and deploy aiven-klog
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         uses: 'google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935' # ratchet:google-github-actions/auth@v2.1.8
         with:
           workload_identity_provider: ${{ secrets.NAIS_IO_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: 'gh-klog@nais-io.iam.gserviceaccount.com'
+          service_account: 'gh-aiven-klog@nais-io.iam.gserviceaccount.com'
           token_format: 'access_token'
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@77e7a554d41e2ee56fc945c52dfd3f33d12def9a' # ratchet:google-github-actions/setup-gcloud@v1
@@ -46,7 +46,7 @@ jobs:
       - name: Output version
         id: version
         run: |-
-           version=$(helm show chart ./charts/klog | awk '/^version:/ {print $2}')
+           version=$(helm show chart ./charts/aiven-klog | awk '/^version:/ {print $2}')
            echo $version
            echo "version=${version}" >> "$GITHUB_OUTPUT"
 
@@ -60,5 +60,5 @@ jobs:
     steps:
       - uses: nais/fasit-deploy@v2 # ratchet:exclude
         with:
-          chart: oci://${{ env.GOOGLE_REGISTRY }}/nais-io/nais/feature/klog
+          chart: oci://${{ env.GOOGLE_REGISTRY }}/nais-io/nais/feature/aiven-klog
           version: ${{ needs.chart.outputs.version }}

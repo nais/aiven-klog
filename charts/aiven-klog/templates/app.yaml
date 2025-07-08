@@ -2,13 +2,15 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-  name: aiven-klog
+  name: {{ include "aiven-klog.fullname" . }}
   namespace: nais-system
+  labels:
+    {{- include "aiven-klog.labels" . | nindent 4 }}
 spec:
   command:
     - kafkactl
     - consume
-    - nais-system.klog
+    - nais-system.aiven-klog
     - --verbose
   env:
     - name: KAFKA_CTL_CONFIG
@@ -27,4 +29,4 @@ spec:
       value: $(KAFKA_CA_PATH)
   image: deviceinsight/kafkactl:latest
   kafka:
-    pool: {{ .Values.aiven.project }}
+    pool: {{ .Values.aiven.project | required ".Values.aiven.project is required." }}

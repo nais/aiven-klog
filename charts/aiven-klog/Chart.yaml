@@ -1,8 +1,8 @@
 apiVersion: v2
-name: klog
-description: A Helm chart for Kubernetes
+name: aiven-klog
+description: aiven-klog consumes logs from Aiven Kafka and outputs them to stdout for ingestion.
 sources:
-  - https://github.com/nais/klog/tree/main/charts/klog
+  - https://github.com/nais/aiven-klog/tree/main/charts/aiven-klog
 
 # A chart can be either an 'application' or a 'library' chart.
 #

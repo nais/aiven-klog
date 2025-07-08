@@ -1,10 +1,12 @@
 apiVersion: kafka.nais.io/v1
 kind: Topic
 metadata:
-  name: klog
+  name: {{ include "aiven-klog.fullname" . }}
   namespace: nais-system
+  labels:
+    {{- include "aiven-klog.labels" . | nindent 4 }}
 spec:
-  pool: {{ .Values.aiven.project }}
+  pool: {{ .Values.aiven.project | required ".Values.aiven.project is required." }}
   acl:
     - team: nais-system
       application: aiven-klog

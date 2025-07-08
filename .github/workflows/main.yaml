@@ -36,6 +36,7 @@ jobs:
       - name: Build Chart
         run: |-
           for chart in charts/*; do
+            
             helm package "$chart"
           done
       - name: Push Chart
